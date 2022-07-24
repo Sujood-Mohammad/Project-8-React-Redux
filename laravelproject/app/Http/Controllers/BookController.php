@@ -53,17 +53,10 @@ class BookController extends Controller
         $book->image = $request->image;
         $book->save();
 
-        // $book = Book::create([
-        //     'title' => $request->title,
-        //     'description' => $request->description,
-        //     'author_name' => $request->author_name,
-        //     'image' => $request->image,
-        // ]);
-
-        // return response()->json([
-        //     'book' => $book,
-        //     'message' => 'Book added successfully'
-        // ]);
+        return response()->json([
+            'book' => $book,
+            'message' => 'Book added successfully'
+        ]);
 
     }
 
@@ -108,6 +101,11 @@ class BookController extends Controller
 
         $book->save();
 
+        return response()->json([
+            'status' => true,
+            'message' => 'Book updated successfully.'
+            ]);
+
     }
 
     /**
@@ -119,5 +117,10 @@ class BookController extends Controller
     public function destroy($id)
     {
         Book::destroy($id);
+
+         return response()->json([
+            'status' => true,
+            'message' => 'Book deleted successfully.'
+            ]);
     }
 }
