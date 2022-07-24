@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
+
 use App\Models\Book;
-use App\Http\Requests\StoreBookRequest;
-use App\Http\Requests\UpdateBookRequest;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -38,13 +38,20 @@ class BookController extends Controller
      */
     public function addBook(Request $request)
     {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'title' => 'required|string|max:255',
+                'description' => 'required',
+                'author_name' => 'required',
+                'image' => 'required|max:5048',
+            ]
+        );
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required',
-            'author_name' => 'required',
-            'image' => 'required|max:5048|mimes:jpeg,jpg,png',
-        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+
 
         $book = new Book;
         $book->title = $request->title;
@@ -91,6 +98,19 @@ class BookController extends Controller
      */
     public function updateBook(Request $request, $id)
     {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'title' => 'required|string|max:255',
+                'description' => 'required',
+                'author_name' => 'required',
+                'image' => 'required|max:5048',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
 
         $book = Book::find($id);
 
